@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { addProperty } from '@/lib/storage';
 import { compressImage } from '@/lib/imageUtils';
 
-const FLAT_TYPES = ['1 RK', '1 BHK', '2 BHK', '3 BHK', '4 BHK', 'Studio', 'Villa', 'Other'];
+const FLAT_TYPES = ['1 RK', '1 BK', '1 BHK', '2 BK', '2 BHK', '3 BHK', '4 BHK'];
 const FURNISHING = ['Unfurnished', 'Semi-Furnished', 'Fully Furnished'];
 
 const PRO_TAGS = [
