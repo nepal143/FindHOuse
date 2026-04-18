@@ -18,7 +18,7 @@ export default function Compare() {
   const [showTable, setShowTable] = useState(false);
 
   useEffect(() => {
-    setProperties(getProperties());
+    getProperties().then(setProperties);
   }, []);
 
   const toggle = (id) => {

@@ -10,8 +10,13 @@ function stars(rating) {
 
 export default function Home() {
   const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const reload = useCallback(() => setProperties(getProperties()), []);
+  const reload = useCallback(async () => {
+    const data = await getProperties();
+    setProperties(data);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     reload();
@@ -20,11 +25,11 @@ export default function Home() {
     return () => window.removeEventListener('focus', reload);
   }, [reload]);
 
-  const handleDelete = (id, e) => {
+  const handleDelete = async (id, e) => {
     e.preventDefault();
     e.stopPropagation();
     if (window.confirm('Delete this flat? This cannot be undone.')) {
-      deleteProperty(id);
+      await deleteProperty(id);
       reload();
     }
   };
@@ -43,7 +48,12 @@ export default function Home() {
 
       {/* List */}
       <div className="px-4 mt-5">
-        {properties.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-20">
+            <div className="text-5xl animate-pulse">🏠</div>
+            <p className="text-gray-400 mt-4 text-sm">Loading flats…</p>
+          </div>
+        ) : properties.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-7xl mb-4">🏘️</div>
             <h2 className="text-xl font-semibold text-gray-700">No flats yet</h2>

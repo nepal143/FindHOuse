@@ -108,7 +108,7 @@ export default function AddFlat() {
       day: 'numeric', month: 'short',
     })} ${now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}`;
     try {
-      addProperty({ ...form, name: autoName, photos });
+      await addProperty({ ...form, name: autoName, photos });
       router.push('/');
     } catch (err) {
       alert(err.message || 'Failed to save. Try removing some photos.');

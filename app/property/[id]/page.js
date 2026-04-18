@@ -61,11 +61,12 @@ export default function PropertyDetail({ params }) {
   const [locating, setLocating] = useState(false);
 
   useEffect(() => {
-    const prop = getProperty(id);
-    if (!prop) { router.push('/'); return; }
-    setProperty(prop);
-    setPhotos(prop.photos || []);
-    setForm({ ...prop });
+    getProperty(id).then((prop) => {
+      if (!prop) { router.push('/'); return; }
+      setProperty(prop);
+      setPhotos(prop.photos || []);
+      setForm({ ...prop });
+    });
   }, [id, router]);
 
   if (!property || !form) {
@@ -121,7 +122,7 @@ export default function PropertyDetail({ params }) {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const updated = updateProperty(id, { ...form, photos });
+      const updated = await updateProperty(id, { ...form, photos });
       setProperty(updated);
       setEditing(false);
       setActivePhoto(0);
@@ -131,9 +132,9 @@ export default function PropertyDetail({ params }) {
     setSaving(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (window.confirm(`Delete "${property.name}"? This cannot be undone.`)) {
-      deleteProperty(id);
+      await deleteProperty(id);
       router.push('/');
     }
   };
